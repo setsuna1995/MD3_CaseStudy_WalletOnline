@@ -4,6 +4,7 @@ import codegym.c0623k1.md3_casestudy_walletonline.model.Category;
 import codegym.c0623k1.md3_casestudy_walletonline.model.CategoryDetail;
 import codegym.c0623k1.md3_casestudy_walletonline.util.ConnectionUtil;
 
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,5 +52,21 @@ public class CategoryDetailDAO extends ConnectionUtil implements GeneralDAO<Cate
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+    }
+    public boolean updateCategoryDetail (CategoryDetail categoryDetail) throws SQLException {
+        boolean rowUpdated;
+        String sql = "update category_detail set name = ?,categoryId= ?, role =? where id = ?";
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            mPreparedStatement.setString(1, categoryDetail.getName());
+            mPreparedStatement.setInt(2, categoryDetail.getCategoryID());
+            mPreparedStatement.setInt(3, categoryDetail.getRole());
+            mPreparedStatement.setInt(4, categoryDetail.getId());
+            rowUpdated = mPreparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rowUpdated;
     }
 }

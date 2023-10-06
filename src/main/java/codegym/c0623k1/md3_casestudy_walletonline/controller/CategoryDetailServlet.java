@@ -29,7 +29,7 @@ public class CategoryDetailServlet extends HttpServlet {
                 createCategoryDetailForm(req,resp);
                 break;
             case "edit":
-//                editCategoryForm(req, resp);
+                editCategoryDetailForm(req, resp);
                 break;
             default:
                 listCategoryDetail(req, resp);
@@ -37,6 +37,12 @@ public class CategoryDetailServlet extends HttpServlet {
         }
 
     }
+
+    private void editCategoryDetailForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/editCategoryDetail.jsp");
+        requestDispatcher.forward(req, resp);
+    }
+
     private void listCategoryDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/list.jsp");
         List<CategoryDetail> categoryDetailList = categoryDetailService.findAll();
@@ -63,13 +69,28 @@ public class CategoryDetailServlet extends HttpServlet {
                 }
                 break;
             case "edit":
-//                editCategoryForm(req, resp);
+                try {
+                    editCategoryDetail(req, resp);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             default:
 //                listCategory(req, resp);
                 break;
         }
     }
+
+    private void editCategoryDetail(HttpServletRequest req, HttpServletResponse resp) throws SQLException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        String name = req.getParameter("name");
+        int categoryId = Integer.parseInt(req.getParameter("categoryId"));
+        int role = Integer.parseInt(req.getParameter("role"));
+        CategoryDetail categoryDetail = new CategoryDetail(id, name, 1, categoryId, role);
+        categoryDetailService.update(categoryDetail);
+        req.setAttribute("message", "New category detail was edited");
+    }
+
     private void createCategoryDetail(HttpServletRequest req, HttpServletResponse resp) throws SQLException {
         String name = req.getParameter("name");
         int role = Integer.parseInt(req.getParameter("role"));

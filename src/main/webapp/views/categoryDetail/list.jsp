@@ -12,12 +12,24 @@
     <title>Title</title>
 </head>
 <body>
-<a href="/category-detail-servlet?action=create">login</a>
-<c:forEach var="categoryDetail" items="${categoriesDetail}">
-    <h2>
-            ${categoryDetail.name}
-                    ${categoryDetail.status}
-    </h2>
-</c:forEach>
+<a href="/category-detail-servlet?action=create">creat</a>
+<table>
+    <c:forEach var="categoryDetail" items="${categoriesDetail}">
+        <tr>
+            <td>
+                <h2>
+                        ${categoryDetail.name}
+                        ${categoryDetail.status}
+
+                </h2>
+            </td>
+            <td>
+                <a href="/category-detail-servlet?action=edit&id=${categoryDetail.id}">edit</a>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+
+
 </body>
 </html>

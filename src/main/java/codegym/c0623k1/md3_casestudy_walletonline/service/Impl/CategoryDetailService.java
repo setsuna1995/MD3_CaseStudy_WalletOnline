@@ -21,7 +21,7 @@ categoryDetailDAO.insert(categoryDetail);
 
     @Override
     public boolean update(CategoryDetail categoryDetail) throws SQLException {
-        return false;
+        return categoryDetailDAO.updateCategoryDetail(categoryDetail);
     }
 
     @Override
