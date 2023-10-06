@@ -3,6 +3,7 @@ package codegym.c0623k1.md3_casestudy_walletonline.controller;
 import codegym.c0623k1.md3_casestudy_walletonline.model.User;
 import codegym.c0623k1.md3_casestudy_walletonline.service.IUserService;
 import codegym.c0623k1.md3_casestudy_walletonline.service.Impl.UserService;
+import codegym.c0623k1.md3_casestudy_walletonline.util.SessionUtil;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -83,8 +84,7 @@ public class UserServlet extends HttpServlet {
     }
 
     private void logoutUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        HttpSession session = req.getSession();
-        session.removeAttribute("userName");
+        SessionUtil.getInstance().removeValue(req, "userName");
 //        Thay đổi đường dẫn đến trang phù hợp
         resp.sendRedirect("index.jsp");
     }
@@ -110,9 +110,7 @@ public class UserServlet extends HttpServlet {
         String userName = req.getParameter("userName");
         String password = req.getParameter("password");
         if(this.userService.checkLogin(userName, password)){
-            req.setAttribute("userName", userName);
-            HttpSession session = req.getSession();
-            session.setAttribute("userName", userName);
+            SessionUtil.getInstance().putValue(req,"userName", userName);
 //            Thay đổi đường dẫn đến trang phù hợp
             resp.sendRedirect("index.jsp");
         } else {
