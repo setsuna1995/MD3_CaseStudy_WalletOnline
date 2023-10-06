@@ -22,7 +22,7 @@ public class ConnectionUtil {
             System.out.println("connect successfully!");
         } catch (Exception ex) {
             System.out.println("connect failure!");
-            ex.printStackTrace();
+            ex.printStackTrace(System.err);
         }
         return conn;
     }
