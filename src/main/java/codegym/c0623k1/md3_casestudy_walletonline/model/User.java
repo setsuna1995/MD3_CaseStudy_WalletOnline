@@ -11,7 +11,7 @@ public class User {
     public User() {
     }
 
-    public User(int userId, String name, String userName, String password, String address, float totalMoney) {
+    public User(int userId, String name, String userName, String password, String address) {
         this.userId = userId;
         this.name = name;
         this.userName = userName;

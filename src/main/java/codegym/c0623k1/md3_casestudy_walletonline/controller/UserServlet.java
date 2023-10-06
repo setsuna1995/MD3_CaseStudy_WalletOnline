@@ -12,11 +12,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet (name = "userServlet", urlPatterns = "/user-servlet")
 public class UserServlet extends HttpServlet {
 
     private final IUserService userService = new UserService();
+    private String userName;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,7 +34,11 @@ public class UserServlet extends HttpServlet {
                 registerUserForm(req, resp);
                 break;
             case "edit":
-                editUserForm(req, resp);
+                try {
+                    editUserForm(req, resp);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             case "delete":
 
@@ -66,20 +72,41 @@ public class UserServlet extends HttpServlet {
                 registerUser(req, resp);
                 break;
             case "edit":
-                editUser(req, resp);
+                try {
+                    editUser(req, resp);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             default:
                 break;
         }
     }
 
-    private void editUser(HttpServletRequest req, HttpServletResponse resp) {
+        private void editUser(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+            int id = Integer.parseInt(req.getParameter("id"));
+            String name = req.getParameter("name");
+            String userName = req.getParameter("userName");
+            String password = req.getParameter("password");
+            String address = req.getParameter("address");
+            User user = new User(id, name, userName, password,address);
+            this.userService.update(user);
+            listUser(req,resp);
+        }
+
+    private void editUserForm(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        String userName = req.getParameter("userName");
+        User user = this.userService.findById(userName);
+        req.setAttribute("user",user);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("views/user/editForm.jsp");
+        dispatcher.forward(req, resp);
     }
 
-    private void editUserForm(HttpServletRequest req, HttpServletResponse resp) {
-    }
-
-    private void listUser(HttpServletRequest req, HttpServletResponse resp) {
+    private void listUser(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        List<User> users = this.userService.findAll();
+        req.setAttribute("users", users);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("views/user/list.jsp");
+        dispatcher.forward(req, resp);
     }
 
     private void logoutUser(HttpServletRequest req, HttpServletResponse resp) throws IOException {
