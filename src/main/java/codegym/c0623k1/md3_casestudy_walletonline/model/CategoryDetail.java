@@ -10,6 +10,10 @@ public class CategoryDetail {
     public CategoryDetail() {
     }
 
+    public CategoryDetail(int id) {
+        this.id = id;
+    }
+
     public CategoryDetail(int id, String name, int status, int categoryID, int role) {
         this.id = id;
         this.name = name;

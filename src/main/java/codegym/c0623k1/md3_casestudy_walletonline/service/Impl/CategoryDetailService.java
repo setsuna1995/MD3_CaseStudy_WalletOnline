@@ -8,16 +8,18 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class CategoryDetailService implements ICategoryDetailService {
- CategoryDetailDAO categoryDetailDAO = new CategoryDetailDAO();
+    CategoryDetailDAO categoryDetailDAO = new CategoryDetailDAO();
+
     @Override
     public void add(CategoryDetail categoryDetail) throws SQLException {
-categoryDetailDAO.insert(categoryDetail);
+        categoryDetailDAO.insert(categoryDetail);
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        return false;
+    public boolean delete(CategoryDetail categoryDetail) throws SQLException {
+        return categoryDetailDAO.deleteCategoryDetail(categoryDetail);
     }
+
 
     @Override
     public boolean update(CategoryDetail categoryDetail) throws SQLException {

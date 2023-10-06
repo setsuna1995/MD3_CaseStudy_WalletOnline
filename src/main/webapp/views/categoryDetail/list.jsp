@@ -20,11 +20,13 @@
                 <h2>
                         ${categoryDetail.name}
                         ${categoryDetail.status}
-
                 </h2>
             </td>
             <td>
                 <a href="/category-detail-servlet?action=edit&id=${categoryDetail.id}">edit</a>
+            </td>
+            <td>
+                <a href="/category-detail-servlet?action=delete&id=${categoryDetail.id}">delete</a>
             </td>
         </tr>
     </c:forEach>

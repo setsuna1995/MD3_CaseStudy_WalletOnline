@@ -12,6 +12,7 @@ import java.util.List;
 public class CategoryDetailDAO extends ConnectionUtil implements GeneralDAO<CategoryDetail>{
     @Override
     public CategoryDetail findById(int id) {
+
         return null;
     }
 
@@ -20,7 +21,7 @@ public class CategoryDetailDAO extends ConnectionUtil implements GeneralDAO<Cate
         List<CategoryDetail> categoryDetailList = new ArrayList<>();
         try {
             open();
-            String sql = "Select * from category_detail";
+            String sql = "Select * from category_detail where status = 1";
             mPreparedStatement = mConnection.prepareStatement(sql);
             mResultSet = mPreparedStatement.executeQuery();
             while (mResultSet.next()) {
@@ -53,12 +54,12 @@ public class CategoryDetailDAO extends ConnectionUtil implements GeneralDAO<Cate
             throw new RuntimeException(e);
         }
     }
-    public boolean updateCategoryDetail (CategoryDetail categoryDetail) throws SQLException {
+    public boolean updateCategoryDetail (CategoryDetail categoryDetail) {
         boolean rowUpdated;
         String sql = "update category_detail set name = ?,categoryId= ?, role =? where id = ?";
         try {
             open();
-            mPreparedStatement = mConnection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            mPreparedStatement = mConnection.prepareStatement(sql);
             mPreparedStatement.setString(1, categoryDetail.getName());
             mPreparedStatement.setInt(2, categoryDetail.getCategoryID());
             mPreparedStatement.setInt(3, categoryDetail.getRole());
@@ -68,5 +69,18 @@ public class CategoryDetailDAO extends ConnectionUtil implements GeneralDAO<Cate
             throw new RuntimeException(e);
         }
         return rowUpdated;
+    }
+    public boolean deleteCategoryDetail (CategoryDetail categoryDetail) {
+        boolean rowDeleted;
+        String sql = "update category_detail set status = 0 where id = ?";
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql);
+            mPreparedStatement.setInt(1, categoryDetail.getId());
+            rowDeleted = mPreparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rowDeleted;
     }
 }

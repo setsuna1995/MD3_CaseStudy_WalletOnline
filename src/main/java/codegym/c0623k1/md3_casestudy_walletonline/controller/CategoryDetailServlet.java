@@ -31,12 +31,26 @@ public class CategoryDetailServlet extends HttpServlet {
             case "edit":
                 editCategoryDetailForm(req, resp);
                 break;
+            case "delete":
+                try {
+                    deleteCategoryDetail(req, resp);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            case "listCategory":
+                listbyCategory(req, resp);
+                break;
             default:
                 listCategoryDetail(req, resp);
                 break;
         }
 
     }
+
+    private void listbyCategory(HttpServletRequest req, HttpServletResponse resp) {
+
+    }
+
 
     private void editCategoryDetailForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/editCategoryDetail.jsp");
@@ -79,6 +93,12 @@ public class CategoryDetailServlet extends HttpServlet {
 //                listCategory(req, resp);
                 break;
         }
+    }
+
+    private void deleteCategoryDetail(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        CategoryDetail categoryDetail = new CategoryDetail(id);
+        categoryDetailService.delete(categoryDetail);
     }
 
     private void editCategoryDetail(HttpServletRequest req, HttpServletResponse resp) throws SQLException {
