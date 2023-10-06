@@ -37,8 +37,8 @@ public class CategoryDetailServlet extends HttpServlet {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
-            case "listCategory":
-                listbyCategory(req, resp);
+            case "find":
+                listByCategory(req, resp);
                 break;
             default:
                 listCategoryDetail(req, resp);
@@ -47,10 +47,18 @@ public class CategoryDetailServlet extends HttpServlet {
 
     }
 
-    private void listbyCategory(HttpServletRequest req, HttpServletResponse resp) {
-
+    private void listByCategory(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/list.jsp");
+        int id = Integer.parseInt(req.getParameter("categoryID"));
+        List<CategoryDetail> categoryDetailList = categoryDetailService.findAllByCategoryID(id);
+        req.setAttribute("categoriesDetail", categoryDetailList);
+        requestDispatcher.forward(req, resp);
     }
 
+    private void deleteCategoryDetail(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        categoryDetailService.delete(id);
+    }
 
     private void editCategoryDetailForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/editCategoryDetail.jsp");
@@ -89,17 +97,20 @@ public class CategoryDetailServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+//            case "find":
+//                findByCondition (req, resp);
+//                break;
             default:
 //                listCategory(req, resp);
                 break;
         }
     }
 
-    private void deleteCategoryDetail(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
-        CategoryDetail categoryDetail = new CategoryDetail(id);
-        categoryDetailService.delete(categoryDetail);
-    }
+//    private void findByCondition(HttpServletRequest req, HttpServletResponse resp) {
+//        int id = Integer.parseInt(req.getParameter("id"));
+//        categoryDetailService.findAllByCategoryID(id);
+//    }
+
 
     private void editCategoryDetail(HttpServletRequest req, HttpServletResponse resp) throws SQLException {
         int id = Integer.parseInt(req.getParameter("id"));

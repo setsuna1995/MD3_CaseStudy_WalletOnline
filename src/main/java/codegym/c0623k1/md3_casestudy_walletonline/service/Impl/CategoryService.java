@@ -15,7 +15,7 @@ categoryDAO.insert(category);
     }
 
     @Override
-    public boolean delete(Category category) throws SQLException {
+    public boolean delete(int id) throws SQLException {
         return false;
     }
 
