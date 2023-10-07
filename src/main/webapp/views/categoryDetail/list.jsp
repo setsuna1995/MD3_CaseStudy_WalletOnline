@@ -5,33 +5,36 @@
   Time: 9:25 SA
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-<a href="/category-detail-servlet?action=create">creat</a>
+<a href="category-detail-servlet?action=create">creat</a>
+<a href="category-detail-servlet?action=find">find</a>
 <table>
-    <c:forEach var="categoryDetail" items="${categoriesDetail}">
+    <%--@elvariable id="categoriesDetail" type="com.sun.java.accessibility.util.Translator"--%>
+    <c:forEach var="i" begin="0" end="${categoriesDetail.size()-1}">
+
         <tr>
             <td>
                 <h2>
-                        ${categoryDetail.name}
-                        ${categoryDetail.status}
+                        ${categoriesDetail.get(i).name}
+                        ${categoriesDetail.get(i).categoryID}
+                        ${categories.get(i).name}
                 </h2>
             </td>
             <td>
-                <a href="/category-detail-servlet?action=edit&id=${categoryDetail.id}">edit</a>
+                <a href="category-detail-servlet?action=edit&id=${categoriesDetail.get(i).id}">edit</a>
             </td>
             <td>
-                <a href="/category-detail-servlet?action=delete&id=${categoryDetail.id}">delete</a>
+                <a href="category-detail-servlet?action=delete&idDelete=${categoriesDetail.get(i).id}">delete</a>
             </td>
         </tr>
     </c:forEach>
 </table>
-
-
 </body>
 </html>

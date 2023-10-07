@@ -2,7 +2,7 @@ package codegym.c0623k1.md3_casestudy_walletonline.model;
 
 
 public class Category {
-    private int categoryID;
+    private int id;
     private String name;
 
     public Category() {
@@ -12,17 +12,17 @@ public class Category {
         this.name = name;
     }
 
-    public Category(int idCategory, String name) {
-        this.categoryID = idCategory;
+    public Category(int id, String name) {
+        this.id = id;
         this.name = name;
     }
 
-    public int getCategoryID() {
-        return categoryID;
+    public int getId() {
+        return id;
     }
 
-    public void setCategoryID(int idCategory) {
-        this.categoryID = idCategory;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -21,12 +21,12 @@ categoryDAO.insert(category);
 
     @Override
     public boolean update(Category category) throws SQLException {
-        return false;
+        return categoryDAO.updateCategory(category);
     }
 
     @Override
     public Category findById(int id) {
-        return null;
+        return categoryDAO.findById(id);
     }
 
     @Override

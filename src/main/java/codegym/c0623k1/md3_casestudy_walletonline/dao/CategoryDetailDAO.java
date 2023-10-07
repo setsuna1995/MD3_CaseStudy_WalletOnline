@@ -3,38 +3,59 @@ package codegym.c0623k1.md3_casestudy_walletonline.dao;
 import codegym.c0623k1.md3_casestudy_walletonline.model.CategoryDetail;
 import codegym.c0623k1.md3_casestudy_walletonline.util.ConnectionUtil;
 
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDetailDAO extends ConnectionUtil implements GeneralDAO<CategoryDetail> {
     @Override
     public CategoryDetail findById(int categoryId) {
-        return null;
+        CategoryDetail categoryDetail = new CategoryDetail();
+        String sql = "select * from category_detail where categoryID = ?";
+        try {
+
+             {
+                 open();
+                 mPreparedStatement = mConnection.prepareStatement(sql);
+                mPreparedStatement.setInt(1, categoryId);
+                ResultSet rs = mPreparedStatement.executeQuery();
+
+                while (rs.next()) {
+                    String name = rs.getString("name");
+//                    categoryDetail = new CategoryDetail(categoryId, name);
+                }
+        }
+
+        } catch (SQLException e) {
+        }
+        return categoryDetail;
     }
 
     public List<CategoryDetail> findAllByCategoryID(int categoryID) {
         List<CategoryDetail> categoryDetailList = new ArrayList<>();
-        String sql = "Select * from category_detail where categoryID = ?";
+        String sql = "Select * from category_detail join category on category_detail.categoryID = category.id where categoryID = ?";
         try {
             open();
             mPreparedStatement = mConnection.prepareStatement(sql);
             mPreparedStatement.setInt(1, categoryID);
-            mResultSet = mPreparedStatement.executeQuery();
-            while (mResultSet.next()) {
-                int id = mResultSet.getInt("id");
-                String name = mResultSet.getString("name");
-                int status = mResultSet.getInt("status");
-                int categoryId = mResultSet.getInt("categoryID");
-                int role = mResultSet.getInt("role");
-                categoryDetailList.add(new CategoryDetail(id, name, status, categoryId, role));
-            }
-            close();
+            checkID(categoryDetailList);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         return categoryDetailList;
+    }
+
+    private void checkID(List<CategoryDetail> categoryDetailList) throws Exception {
+        mResultSet = mPreparedStatement.executeQuery();
+        while (mResultSet.next()) {
+            int id = mResultSet.getInt("id");
+            String name = mResultSet.getString("name");
+            int status = mResultSet.getInt("status");
+            int categoryId = mResultSet.getInt("categoryID");
+            int role = mResultSet.getInt("role");
+            categoryDetailList.add(new CategoryDetail(id, name, status, categoryId, role));
+        }
+        close();
     }
 
     @Override
@@ -44,16 +65,7 @@ public class CategoryDetailDAO extends ConnectionUtil implements GeneralDAO<Cate
         try {
             open();
             mPreparedStatement = mConnection.prepareStatement(sql);
-            mResultSet = mPreparedStatement.executeQuery();
-            while (mResultSet.next()) {
-                int id = mResultSet.getInt("id");
-                String name = mResultSet.getString("name");
-                int status = mResultSet.getInt("status");
-                int categoryId = mResultSet.getInt("categoryID");
-                int role = mResultSet.getInt("role");
-                categoryDetailList.add(new CategoryDetail(id, name, status, categoryId, role));
-            }
-            close();
+            checkID(categoryDetailList);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

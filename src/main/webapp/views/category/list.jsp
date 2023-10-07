@@ -17,7 +17,8 @@
   <h2>
       ${category.name}
   </h2>
-        <a href="/category-detail-servlet?action=find&categoryID=${category.categoryID}">find</a>
+        <a href="/category-servlet?action=find&id=${category.id}">find</a>
+    <a href="/category-servlet?action=edit&id=${category.id}">edit</a>
 </c:forEach>
 </body>
 </html>
