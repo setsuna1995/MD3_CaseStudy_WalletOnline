@@ -22,13 +22,13 @@ public class CategoryDetailService implements ICategoryDetailService {
 
     @Override
     public boolean delete(int id) throws SQLException {
-        return categoryDetailDAO.deleteCategoryDetail(id);
+        return categoryDetailDAO.delete(id);
     }
 
 
     @Override
     public boolean update(CategoryDetail categoryDetail) throws SQLException {
-        return categoryDetailDAO.updateCategoryDetail(categoryDetail);
+        return categoryDetailDAO.update(categoryDetail);
     }
 
     @Override

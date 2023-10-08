@@ -30,9 +30,12 @@ public class CategoryServlet extends HttpServlet {
             case "edit":
                 editCategoryForm(req, resp);
                 break;
-//            case "find":
-//findCategoryDetailByCategoryId (req, resp);
-//break;
+            case "delete":
+                try {
+                    deleteCategory(req, resp);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
             default:
                 listCategory(req, resp);
                 break;
@@ -40,6 +43,11 @@ public class CategoryServlet extends HttpServlet {
 
     }
 
+    private void deleteCategory(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
+        int id = Integer.parseInt(req.getParameter("id"));
+        categoryService.delete(id);
+        listCategory(req, resp);
+    }
 
 
     private void editCategoryForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

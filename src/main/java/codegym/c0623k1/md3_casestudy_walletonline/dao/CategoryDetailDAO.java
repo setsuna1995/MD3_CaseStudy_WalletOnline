@@ -9,35 +9,64 @@ import java.util.List;
 
 public class CategoryDetailDAO extends ConnectionUtil implements GeneralDAO<CategoryDetail> {
     @Override
-    public CategoryDetail findById(int categoryId) {
-        CategoryDetail categoryDetail = new CategoryDetail();
-        String sql = "select * from category_detail where categoryID = ?";
+    public boolean update(CategoryDetail categoryDetail) throws SQLException {
+        boolean rowUpdated;
+        String sql = "update category_detail set name = ?,categoryId= ?, role =? where id = ?";
         try {
-
-             {
-                 open();
-                 mPreparedStatement = mConnection.prepareStatement(sql);
-                mPreparedStatement.setInt(1, categoryId);
-                ResultSet rs = mPreparedStatement.executeQuery();
-
-                while (rs.next()) {
-                    String name = rs.getString("name");
-//                    categoryDetail = new CategoryDetail(categoryId, name);
-                }
-        }
-
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql);
+            mPreparedStatement.setString(1, categoryDetail.getName());
+            mPreparedStatement.setInt(2, categoryDetail.getCategoryID());
+            mPreparedStatement.setInt(3, categoryDetail.getRole());
+            mPreparedStatement.setInt(4, categoryDetail.getId());
+            rowUpdated = mPreparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return categoryDetail;
+        return rowUpdated;
+    }
+
+    @Override
+    public boolean delete(int id) throws SQLException {
+        boolean rowDeleted;
+        String sql = "update category_detail set status = 0 where id = ?";
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql);
+            mPreparedStatement.setInt(1, id);
+            rowDeleted = mPreparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rowDeleted;
+    }
+
+    @Override
+    public CategoryDetail findById(int id) {
+        return null;
     }
 
     public List<CategoryDetail> findAllByCategoryID(int categoryID) {
         List<CategoryDetail> categoryDetailList = new ArrayList<>();
-        String sql = "Select * from category_detail join category on category_detail.categoryID = category.id where categoryID = ?";
+        String sql = "Select * from category_detail join category on category_detail.categoryID = category.id where categoryID = ? and status = 1";
         try {
             open();
             mPreparedStatement = mConnection.prepareStatement(sql);
             mPreparedStatement.setInt(1, categoryID);
+            checkID(categoryDetailList);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return categoryDetailList;
+    }
+
+    @Override
+    public List<CategoryDetail> findAll() {
+        List<CategoryDetail> categoryDetailList = new ArrayList<>();
+        String sql = "Select * from category_detail where status = 1";
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql);
             checkID(categoryDetailList);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -59,19 +88,6 @@ public class CategoryDetailDAO extends ConnectionUtil implements GeneralDAO<Cate
     }
 
     @Override
-    public List<CategoryDetail> findAll() {
-        List<CategoryDetail> categoryDetailList = new ArrayList<>();
-        String sql = "Select * from category_detail where status = 1";
-        try {
-            open();
-            mPreparedStatement = mConnection.prepareStatement(sql);
-            checkID(categoryDetailList);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        return categoryDetailList;
-    }
-
     public void insert(CategoryDetail categoryDetail) {
         String sql = "INSERT INTO category_detail (`name`, `status`, `categoryId`, role) VALUES (?, 1, ?, ?)";
 
@@ -89,34 +105,4 @@ public class CategoryDetailDAO extends ConnectionUtil implements GeneralDAO<Cate
         }
     }
 
-    public boolean updateCategoryDetail(CategoryDetail categoryDetail) {
-        boolean rowUpdated;
-        String sql = "update category_detail set name = ?,categoryId= ?, role =? where id = ?";
-        try {
-            open();
-            mPreparedStatement = mConnection.prepareStatement(sql);
-            mPreparedStatement.setString(1, categoryDetail.getName());
-            mPreparedStatement.setInt(2, categoryDetail.getCategoryID());
-            mPreparedStatement.setInt(3, categoryDetail.getRole());
-            mPreparedStatement.setInt(4, categoryDetail.getId());
-            rowUpdated = mPreparedStatement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return rowUpdated;
-    }
-
-    public boolean deleteCategoryDetail(int id) {
-        boolean rowDeleted;
-        String sql = "update category_detail set status = 0 where id = ?";
-        try {
-            open();
-            mPreparedStatement = mConnection.prepareStatement(sql);
-            mPreparedStatement.setInt(1, id);
-            rowDeleted = mPreparedStatement.executeUpdate() > 0;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        return rowDeleted;
-    }
 }

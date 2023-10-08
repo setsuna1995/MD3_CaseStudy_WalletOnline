@@ -8,19 +8,16 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDAO extends ConnectionUtil implements GeneralDAO <Category>{
-    public Category findByCondition(int id) {
-        return null;
-    }
+public class CategoryDAO extends ConnectionUtil implements GeneralDAO <Category> {
+
 
     @Override
     public Category findById(int id) {
         Category category = new Category();
         String sql = "select * from category where id = ?";
-        try
-             {
-                 open();
-                 mPreparedStatement = mConnection.prepareStatement(sql);
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql);
             mPreparedStatement.setInt(1, id);
             ResultSet rs = mPreparedStatement.executeQuery();
             while (rs.next()) {
@@ -38,13 +35,14 @@ public class CategoryDAO extends ConnectionUtil implements GeneralDAO <Category>
         List<Category> categoryList = new ArrayList<>();
         try {
             open();
-            String sql = "Select * from category";
+            String sql = "Select * from category where status = 1";
             mPreparedStatement = mConnection.prepareStatement(sql);
             mResultSet = mPreparedStatement.executeQuery();
             while (mResultSet.next()) {
                 int id = mResultSet.getInt("id");
                 String name = mResultSet.getString("name");
-                categoryList.add(new Category(id, name));
+                int status = mResultSet.getInt("status");
+                categoryList.add(new Category(id, name, status));
             }
             close();
         } catch (Exception e) {
@@ -52,21 +50,9 @@ public class CategoryDAO extends ConnectionUtil implements GeneralDAO <Category>
         }
         return categoryList;
     }
-    public void insert(Category category) {
-        String sql = "INSERT INTO category (`name`) VALUES (?)";
 
-        try {
-            open();
-            mPreparedStatement = mConnection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            mPreparedStatement.setString(1, category.getName());
-            mPreparedStatement.executeUpdate();
-            mResultSet = mPreparedStatement.getGeneratedKeys();
-            close();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
-    public boolean updateCategory (Category category) {
+    @Override
+    public boolean update(Category category) throws SQLException {
         boolean rowUpdated;
         String sql = "update category set name = ? where id = ?";
         try {
@@ -79,5 +65,36 @@ public class CategoryDAO extends ConnectionUtil implements GeneralDAO <Category>
             throw new RuntimeException(e);
         }
         return rowUpdated;
+    }
+
+    @Override
+    public boolean delete(int id) throws SQLException {
+        boolean rowDeleted;
+        String sql = "update category set status = 0 where id = ?";
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql);
+            mPreparedStatement.setInt(1, id);
+            rowDeleted = mPreparedStatement.executeUpdate() > 0;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return rowDeleted;
+    }
+
+    @Override
+    public void insert(Category category) {
+        String sql = "INSERT INTO category (`name`, `status`) VALUES (?, 1)";
+
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            mPreparedStatement.setString(1, category.getName());
+            mPreparedStatement.executeUpdate();
+            mResultSet = mPreparedStatement.getGeneratedKeys();
+            close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }

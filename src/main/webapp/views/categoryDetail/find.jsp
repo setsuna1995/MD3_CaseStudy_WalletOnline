@@ -18,14 +18,14 @@
 <table>
     <%--@elvariable id="categoriesDetail" type="com.sun.java.accessibility.util.Translator"--%>
         <%--@elvariable id="categories" type="java.util.List"--%>
-        <c:forEach var="category" items="${categories}">
+        <c:forEach var="categories" items="${categories}">
             <tr>
                 <td>
-                        ${category.name}
+                        ${categories.name}
+                    ${categories.id}
                 </td>
                 <td>
-                    <a href="category-detail-servlet?action=showListCategoryDetail&id=${categoriesDetail.get(i).id}">edit</a>
-
+                    <a href="category-detail-servlet?action=showListByCategory&categoryID=${categories.id}">FIND</a>
                 </td>
             </tr>
 
