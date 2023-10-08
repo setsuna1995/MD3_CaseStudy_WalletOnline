@@ -33,4 +33,9 @@ public class UserService implements IUserService {
     public void update(User user) {
         userDAO.update(user);
     }
+
+    @Override
+    public void delete(int id) {
+        userDAO.delete(id);
+    }
 }

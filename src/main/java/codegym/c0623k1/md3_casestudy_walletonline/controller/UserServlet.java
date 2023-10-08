@@ -40,8 +40,19 @@ public class UserServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+            case "view":
+                try {
+                    view(req, resp);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+                break;
             case "delete":
-
+                try {
+                    delete(req, resp);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
                 break;
             case "logout":
                 logoutUser(req,resp);
@@ -93,12 +104,25 @@ public class UserServlet extends HttpServlet {
             this.userService.update(user);
             listUser(req,resp);
         }
+        private void delete(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+            int id = Integer.parseInt(req.getParameter("id"));
+            this.userService.delete(id);
+        }
 
     private void editUserForm(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String userName = req.getParameter("userName");
         User user = this.userService.findById(userName);
         req.setAttribute("user",user);
         RequestDispatcher dispatcher = req.getRequestDispatcher("views/user/editForm.jsp");
+        dispatcher.forward(req, resp);
+    }
+
+    private void view(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        String userName = req.getParameter("userName");
+        User user = this.userService.findById(userName);
+        System.out.println(user);
+        req.setAttribute("user",user);
+        RequestDispatcher dispatcher = req.getRequestDispatcher("views/user/viewUser.jsp");
         dispatcher.forward(req, resp);
     }
 

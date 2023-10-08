@@ -14,4 +14,6 @@ public interface IUserService {
     User findById(String userName) throws Exception;
 
     void update(User user);
+
+    void delete(int id);
 }

@@ -32,7 +32,7 @@
         <td>${item.getUserName()}</td>
         <td>${item.getAddress()}</td>
         <td>${item.getTotalMoney()}</td>
-        <td><a href="user-servlet?action=view&id=${item.getUserId()}">View</a></td>
+        <td><a href="user-servlet?action=view&userName=${item.userName}">View</a></td>
         <td><a href="user-servlet?action=edit&userName=${item.userName}">Edit</a></td>
         <td><a href="user-servlet?action=delete&id=${item.getUserId()}">Delete</a></td>
     </tr>

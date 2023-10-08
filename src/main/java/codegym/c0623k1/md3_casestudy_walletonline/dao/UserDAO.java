@@ -110,4 +110,18 @@ public class UserDAO extends ConnectionUtil {
             throw new RuntimeException(e);
         }
     }
+
+    public void delete(int id) {
+        String sql = "delete from user WHERE id = ?";
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            mPreparedStatement.setInt(1, id);
+            mPreparedStatement.executeUpdate();
+            mResultSet = mPreparedStatement.getGeneratedKeys();
+            close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
