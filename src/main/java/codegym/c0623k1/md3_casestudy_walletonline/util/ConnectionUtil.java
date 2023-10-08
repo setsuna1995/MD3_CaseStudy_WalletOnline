@@ -1,11 +1,14 @@
 package codegym.c0623k1.md3_casestudy_walletonline.util;
 
+import codegym.c0623k1.md3_casestudy_walletonline.model.User;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.List;
 
-public class ConnectionUtil {
+public abstract class ConnectionUtil {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/expense_management";
     private static final String USER_NAME = "root";
     private static final String PASSWORD = "123456";
