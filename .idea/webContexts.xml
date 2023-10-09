@@ -3,6 +3,7 @@
   <component name="WebContextManager">
     <option name="state">
       <map>
+        <entry key="file://$PROJECT_DIR$/src/main/webapp/views/category/list.jsp" value="file://$PROJECT_DIR$/src/main/webapp" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/categoryDetail/list.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/categoryDetail" />
         <entry key="file://$PROJECT_DIR$/src/main/webapp/views/categoryDetail/showListCategoryDetailByCategory.jsp" value="file://$PROJECT_DIR$/src/main/webapp/views/categoryDetail" />
       </map>
