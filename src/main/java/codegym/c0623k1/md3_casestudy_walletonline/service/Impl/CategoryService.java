@@ -11,17 +11,15 @@ public class CategoryService implements ICategoryService {
     private final CategoryDAO categoryDAO = new CategoryDAO();
     @Override
     public void add(Category category) throws SQLException {
-categoryDAO.insert(category);
+        categoryDAO.insert(category);
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        return false;
+    public void delete(int id) throws SQLException {
     }
 
     @Override
-    public boolean update(Category category) throws SQLException {
-        return false;
+    public void update(Category category) throws SQLException {
     }
 
     @Override

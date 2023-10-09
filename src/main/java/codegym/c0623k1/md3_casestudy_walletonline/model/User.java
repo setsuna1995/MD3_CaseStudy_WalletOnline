@@ -7,6 +7,7 @@ public class User {
     private String password;
     private String address;
     private float totalMoney;
+    private int status;
 
     public User() {
     }
@@ -20,6 +21,14 @@ public class User {
         this.totalMoney = totalMoney;
     }
     public User(String name, String userName, String password, String address) {
+        this.name = name;
+        this.userName = userName;
+        this.password = password;
+        this.address = address;
+    }
+
+    public User(int userId, String name, String userName, String password, String address) {
+        this.userId = userId;
         this.name = name;
         this.userName = userName;
         this.password = password;
@@ -72,5 +81,13 @@ public class User {
 
     public void setTotalMoney(float totalMoney) {
         this.totalMoney = totalMoney;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }

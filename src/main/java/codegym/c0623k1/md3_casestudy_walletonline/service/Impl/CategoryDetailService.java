@@ -11,17 +11,15 @@ public class CategoryDetailService implements ICategoryDetailService {
  CategoryDetailDAO categoryDetailDAO = new CategoryDetailDAO();
     @Override
     public void add(CategoryDetail categoryDetail) throws SQLException {
-categoryDetailDAO.insert(categoryDetail);
+        categoryDetailDAO.insert(categoryDetail);
     }
 
     @Override
-    public boolean delete(int id) throws SQLException {
-        return false;
+    public void delete(int id) throws SQLException {
     }
 
     @Override
-    public boolean update(CategoryDetail categoryDetail) throws SQLException {
-        return false;
+    public void update(CategoryDetail categoryDetail) throws SQLException {
     }
 
     @Override
@@ -32,5 +30,10 @@ categoryDetailDAO.insert(categoryDetail);
     @Override
     public List<CategoryDetail> findAll() {
         return categoryDetailDAO.findAll();
+    }
+
+    @Override
+    public List<CategoryDetail> findAllByCategoryID(int categoryID) {
+        return categoryDetailDAO.findAllByCategoryID(categoryID);
     }
 }

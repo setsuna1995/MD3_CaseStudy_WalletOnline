@@ -6,9 +6,10 @@ import java.util.List;
 public interface IGeneralService <T> {
     public void add(T t) throws SQLException;
 
-    public boolean delete(int id) throws SQLException;
+    public void delete(int id) throws SQLException;
 
-    public boolean update(T t) throws SQLException;
+    public void update(T t) throws SQLException;
+
     public T findById(int id);
 
     public List<T> findAll();

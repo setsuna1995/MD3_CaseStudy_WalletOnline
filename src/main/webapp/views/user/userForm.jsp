@@ -20,23 +20,23 @@
             <table>
                 <tr>
                     <td>Name:</td>
-                    <td><input type="text" name="name" id="name""></td>
+                    <td><input type="text" name="name" id="name" value="${user.name}"></td>
                 </tr>
                 <tr>
                     <td>Username:</td>
-                    <td><input type="text" name="userName" id="userName"></td>
+                    <td><input type="text" name="userName" id="userName" value="${user.userName}"></td>
                 </tr>
                 <tr>
                     <td>Password:</td>
-                    <td><input type="text" name="password" id="password"></td>
+                    <td><input type="text" name="password" id="password" value="${user.password}"></td>
                 </tr>
                 <tr>
                     <td>RePassword:</td>
-                    <td><input type="text" name="rePassword" id="rePassword"></td>
+                    <td><input type="text" name="rePassword" id="rePassword" value="${user.password}"></td>
                 </tr>
                 <tr>
                     <td>Address:</td>
-                    <td><input type="text" name="address" id="address"></td>
+                    <td><input type="text" name="address" id="address" value="${user.address}"></td>
                 </tr>
                 <tr>
                     <td></td>
