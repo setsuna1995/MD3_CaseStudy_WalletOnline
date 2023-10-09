@@ -18,22 +18,18 @@
 <table>
     <%--@elvariable id="categoriesDetail" type="com.sun.java.accessibility.util.Translator"--%>
     <c:forEach var="i" begin="0" end="${categoriesDetail.size()-1}">
+<c:if test="${categoriesDetail.get(i).categoryID == idCategory}">
+    <tr>
+        <td>
+            <h2>
+                    ${categoriesDetail.get(i).name}
+                    ${categoriesDetail.get(i).categoryID}
+                    ${categories.get(i).name}
+            </h2>
+        </td>
+    </tr>
+</c:if>
 
-        <tr>
-            <td>
-                <h2>
-                        ${categoriesDetail.get(i).name}
-                        ${categoriesDetail.get(i).categoryID}
-                        ${categories.get(i).name}
-                </h2>
-            </td>
-            <td>
-                <a href="category-detail-servlet?action=edit&id=${categoriesDetail.get(i).id}">edit</a>
-            </td>
-            <td>
-                <a href="category-detail-servlet?action=delete&idDelete=${categoriesDetail.get(i).id}">delete</a>
-            </td>
-        </tr>
     </c:forEach>
 </table>
 </body>

@@ -9,22 +9,25 @@ import java.util.List;
 
 public class CategoryService implements ICategoryService {
     private final CategoryDAO categoryDAO = new CategoryDAO();
+
     @Override
     public void add(Category category) throws SQLException {
         categoryDAO.insert(category);
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public boolean delete(int id) throws SQLException {
+        return categoryDAO.delete(id);
     }
 
     @Override
-    public void update(Category category) throws SQLException {
+    public boolean update(Category category) throws SQLException {
+        return categoryDAO.update(category);
     }
 
     @Override
     public Category findById(int id) {
-        return null;
+        return categoryDAO.findById(id);
     }
 
     @Override

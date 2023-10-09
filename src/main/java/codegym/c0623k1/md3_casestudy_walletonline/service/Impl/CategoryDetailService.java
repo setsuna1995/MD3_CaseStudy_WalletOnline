@@ -8,23 +8,32 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class CategoryDetailService implements ICategoryDetailService {
- CategoryDetailDAO categoryDetailDAO = new CategoryDetailDAO();
+    CategoryDetailDAO categoryDetailDAO = new CategoryDetailDAO();
+
+    @Override
+    public List<CategoryDetail> findAllByCategoryID(int id) {
+        return categoryDetailDAO.findAllByCategoryID(id);
+    }
+
     @Override
     public void add(CategoryDetail categoryDetail) throws SQLException {
         categoryDetailDAO.insert(categoryDetail);
     }
 
     @Override
-    public void delete(int id) throws SQLException {
+    public boolean delete(int id) throws SQLException {
+        return categoryDetailDAO.delete(id);
     }
 
+
     @Override
-    public void update(CategoryDetail categoryDetail) throws SQLException {
+    public boolean update(CategoryDetail categoryDetail) throws SQLException {
+        return categoryDetailDAO.update(categoryDetail);
     }
 
     @Override
     public CategoryDetail findById(int id) {
-        return null;
+        return categoryDetailDAO.findById(id);
     }
 
     @Override
@@ -32,8 +41,4 @@ public class CategoryDetailService implements ICategoryDetailService {
         return categoryDetailDAO.findAll();
     }
 
-    @Override
-    public List<CategoryDetail> findAllByCategoryID(int categoryID) {
-        return categoryDetailDAO.findAllByCategoryID(categoryID);
-    }
 }
