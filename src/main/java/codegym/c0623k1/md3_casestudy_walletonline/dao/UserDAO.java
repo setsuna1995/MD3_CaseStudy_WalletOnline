@@ -53,4 +53,9 @@ public class UserDAO extends ConnectionUtil implements GeneralDAO<UserDAO>{
     public List<UserDAO> findAll() {
         return null;
     }
+
+    @Override
+    public boolean delete(int id) {
+        return false;
+    }
 }
