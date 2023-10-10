@@ -17,4 +17,6 @@ public interface IMoneyService {
     public Money findById(int idCategoryDetail, int idUser);
 
     List<Money> findAllByRole(int role);
+
+    List<Money> findAllToSearch(int month);
 }

@@ -30,9 +30,9 @@
         <td>${money.date}</td>
         <td>${money.money}</td>
         <td>${money.description}</td>
-        <td><a href="href="user-servlet?action=view&idUser=${money.user.id}&idCategoryDetail=${money.categoryDetail.id}">View</a></td>
-        <td><a href="href="user-servlet?action=update&idUser=${money.user.id}&idCategoryDetail=${money.categoryDetail.id}">Update</a></td>
-        <td><a href="href="user-servlet?action=delete&idUser=${money.user.id}&idCategoryDetail=${money.categoryDetail.id}">Delete</a></td>
+        <td><a href="money-servlet?action=view&idUser=${money.user.id}&idCategoryDetail=${money.categoryDetail.id}">View</a></td>
+        <td><a href="money-servlet?action=update&idUser=${money.user.id}&idCategoryDetail=${money.categoryDetail.id}">Update</a></td>
+        <td><a href="money-servlet?action=delete&idUser=${money.user.id}&idCategoryDetail=${money.categoryDetail.id}">Delete</a></td>
     </tr>
     </c:forEach>
 </table>

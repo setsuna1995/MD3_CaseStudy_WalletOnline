@@ -68,6 +68,11 @@ public class DaoToModel {
         money.setUser(user);
         CategoryDetail categoryDetail = new CategoryDetail();
         categoryDetail.setId(mResultSet.getInt("categoryDetailId"));
+        try {
+            categoryDetail.setName(mResultSet.getString("category_detail.name"));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         money.setCategoryDetail(categoryDetail);
         money.setMoney(mResultSet.getFloat("money"));
         money.setDescription(mResultSet.getString("description"));

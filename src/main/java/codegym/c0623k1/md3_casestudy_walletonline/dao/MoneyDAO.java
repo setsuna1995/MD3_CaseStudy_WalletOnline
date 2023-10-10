@@ -15,6 +15,7 @@ import java.util.List;
 
 public class MoneyDAO extends ConnectionUtil {
     DaoToModel converter = DaoToModel.getInstance();
+    UserDAO userDAO = new UserDAO();
 
     public Money findById(int idCategoryDetail, int idUser) {
         return null;
@@ -97,8 +98,91 @@ public class MoneyDAO extends ConnectionUtil {
     }
 
     public List<Money> findAllByRole(int role) {
+        List<Money> moneyList = new ArrayList<>();
+        String sql = "Select * from money join category_detail on money.categoryDetailId = category_detail.id " +
+                "where category_detail.role = ?";
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql);
+            mPreparedStatement.setInt(1, role);
+            mResultSet = mPreparedStatement.executeQuery();
+            while (mResultSet.next()) {
+                Money money = converter.moneyDaoToModel(mResultSet);
 
 
-        return null;
+                User user = new User();
+                PreparedStatement preparedStatement1 = null;
+                ResultSet resultSet1 = null;
+                String sql1 = "Select * From user Where id = ?";
+                preparedStatement1 = mConnection.prepareStatement(sql1);
+                preparedStatement1.setInt(1, money.getUser().getId());
+                resultSet1 = preparedStatement1.executeQuery();
+                while (resultSet1.next()) {
+                    user = converter.userDaoToModel(resultSet1);
+                }
+                close(preparedStatement1);
+                close(resultSet1);
+                money.setUser(user);
+
+                moneyList.add(money);
+
+            }
+            close();
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return moneyList;
+    }
+
+    public List<Money> findAllToSearch(int month) {
+        List<Money> moneyList = new ArrayList<>();
+        String sql = "Select * From money where DATE_FORMAT(date, '%Y-%m') = ?";
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql);
+            mPreparedStatement.setString(1, "2023-" + month);
+
+            mResultSet = mPreparedStatement.executeQuery();
+            while (mResultSet.next()) {
+                Money money = converter.moneyDaoToModel(mResultSet);
+
+                User user = new User();
+                PreparedStatement preparedStatement1 = null;
+                ResultSet resultSet1 = null;
+                String sql1 = "Select * From user Where id = ?";
+                preparedStatement1 = mConnection.prepareStatement(sql1);
+                preparedStatement1.setInt(1, money.getUser().getId());
+                resultSet1 = preparedStatement1.executeQuery();
+                while (resultSet1.next()) {
+                    user = converter.userDaoToModel(resultSet1);
+                }
+                close(preparedStatement1);
+                close(resultSet1);
+                money.setUser(user);
+
+
+                CategoryDetail categoryDetail = new CategoryDetail();
+                PreparedStatement preparedStatement2 = null;
+                ResultSet resultSet2 = null;
+                String sql2 = "Select * From category_detail Where id = ?";
+                preparedStatement2 = mConnection.prepareStatement(sql2);
+                preparedStatement2.setInt(1, money.getCategoryDetail().getId());
+                resultSet2 = preparedStatement2.executeQuery();
+                while (resultSet2.next()) {
+                    categoryDetail = converter.categoryDetailDaoToModel(resultSet2);
+                }
+                close(preparedStatement2);
+                close(resultSet2);
+                money.setCategoryDetail(categoryDetail);
+
+                moneyList.add(money);
+            }
+            close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return moneyList;
     }
 }

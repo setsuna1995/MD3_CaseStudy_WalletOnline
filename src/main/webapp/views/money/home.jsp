@@ -21,5 +21,6 @@
 <a href="money-servlet?action=list">Lịch sử</a>
 <a href="money-servlet?action=listCollectMoney">Danh sách Thu</a>
 <a href="money-servlet?action=listPayMoney">Danh sách Chi</a>
+<a href="money-servlet?action=listToMonth">Danh sách thu chi theo tháng</a>
 </body>
 </html>

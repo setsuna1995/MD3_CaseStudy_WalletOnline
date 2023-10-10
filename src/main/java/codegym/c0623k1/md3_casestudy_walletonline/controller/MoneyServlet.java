@@ -45,9 +45,19 @@ public class MoneyServlet extends HttpServlet {
             case "listPayMoney":
                 list(action, req, resp);
                 break;
+            case  "listToMonth":
+                formSearch(req, resp);
+                break;
+            case "update":
+                updateMoney(req, resp);
+                break;
             default:
                 break;
         }
+    }
+
+    private void updateMoney(HttpServletRequest req, HttpServletResponse resp) {
+
     }
 
     @Override
@@ -65,9 +75,25 @@ public class MoneyServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
+            case "listToMonth":
+                searchMoneyToMonth(req, resp);
+                break;
             default:
                 break;
         }
+    }
+
+    private void searchMoneyToMonth(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        int month = Integer.parseInt(req.getParameter("searchMonth"));
+        List<Money> moneyList = moneyService.findAllToSearch(month);
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/money/list.jsp");
+        req.setAttribute("moneyList", moneyList);
+        requestDispatcher.forward(req, resp);
+    }
+
+    private void formSearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/money/searchForm.jsp");
+        requestDispatcher.forward(req, resp);
     }
 
     private void list(String action, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

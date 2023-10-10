@@ -49,4 +49,9 @@ public class MoneyService implements IMoneyService {
         return moneyDAO.findAllByRole(role);
     }
 
+    @Override
+    public List<Money> findAllToSearch(int month) {
+        return moneyDAO.findAllToSearch(month);
+    }
+
 }
