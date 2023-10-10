@@ -27,7 +27,7 @@ public class ConnectionUtil {
         return conn;
     }
 
-    public void open(){
+    public void open() {
         mConnection = getConnection(DB_URL, USER_NAME, PASSWORD);
     }
 

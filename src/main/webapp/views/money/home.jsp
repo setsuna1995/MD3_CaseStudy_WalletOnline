@@ -15,11 +15,11 @@
 <body>
 <h1>${userName}</h1>
 <a href="user-servlet?action=logout">Logout</a>
-<br />
-<c:forEach var="category" items="${categories}">
-    <a href="money-servlet?category=${category.categoryID}">${category.name}</a>
-    <br />
-</c:forEach>
-
+<br/>
+<a href="money-servlet?action=collectMoney">Thu</a>
+<a href="money-servlet?action=payMoney">Chi</a>
+<a href="money-servlet?action=list">Lịch sử</a>
+<a href="money-servlet?action=listCollectMoney">Danh sách Thu</a>
+<a href="money-servlet?action=listPayMoney">Danh sách Chi</a>
 </body>
 </html>

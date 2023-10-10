@@ -7,10 +7,12 @@ public interface GeneralDAO<T> {
     public T findById(int id);
 
     public List<T> findAll();
-    public boolean update(T t) throws SQLException;
-    public void insert (T t) throws SQLException;
 
-    public boolean delete (int id) throws SQLException;
+    public boolean update(T t) throws SQLException;
+
+    public void insert(T t) throws SQLException;
+
+    public boolean delete(int id) throws SQLException;
 
 
 }

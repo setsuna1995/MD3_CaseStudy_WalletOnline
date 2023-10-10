@@ -2,6 +2,7 @@ package codegym.c0623k1.md3_casestudy_walletonline.controller;
 
 import codegym.c0623k1.md3_casestudy_walletonline.model.Category;
 import codegym.c0623k1.md3_casestudy_walletonline.model.CategoryDetail;
+import codegym.c0623k1.md3_casestudy_walletonline.model.User;
 import codegym.c0623k1.md3_casestudy_walletonline.service.ICategoryDetailService;
 import codegym.c0623k1.md3_casestudy_walletonline.service.ICategoryService;
 import codegym.c0623k1.md3_casestudy_walletonline.service.Impl.CategoryDetailService;
@@ -15,7 +16,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet(name = "CategoryDetailServlet", urlPatterns = "/category-detail-servlet")
@@ -55,15 +55,6 @@ public class CategoryDetailServlet extends HttpServlet {
 
     }
 
-    protected List<Category> findAllCategory(List<CategoryDetail> categoryDetailList) {
-        List<Category> list = new ArrayList<>();
-        for (CategoryDetail categoryDetail : categoryDetailList) {
-            Category category = categoryService.findById(categoryDetail.getCategoryID());
-            list.add(category);
-        }
-        return list;
-    }
-
     private void listCategoryDetailByCategoryName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/find.jsp");
         List<Category> categoryList = categoryService.findAll();
@@ -72,11 +63,10 @@ public class CategoryDetailServlet extends HttpServlet {
     }
 
     private void showCategoryDetailByCategoryNameForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/showListCategoryDetailByCategory.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/list.jsp");
         int id = Integer.parseInt(req.getParameter("categoryID"));
-        List<CategoryDetail> categoryDetailList = categoryDetailService.findAll();
+        List<CategoryDetail> categoryDetailList = categoryDetailService.findAllByCategoryID(id);
         req.setAttribute("categoriesDetail", categoryDetailList);
-        req.setAttribute("idCategory", id);
         requestDispatcher.forward(req, resp);
     }
 
@@ -87,21 +77,27 @@ public class CategoryDetailServlet extends HttpServlet {
     }
 
     private void editCategoryDetailForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/editCategoryDetail.jsp");
-        requestDispatcher.forward(req, resp);
+        int id = Integer.parseInt(req.getParameter("id"));
+        CategoryDetail categoryDetail = this.categoryDetailService.findById(id);
+        RequestDispatcher dispatcher;
+        if (categoryDetail == null) {
+            dispatcher = req.getRequestDispatcher("error-404.jsp");
+        } else {
+            req.setAttribute("categoryDetail", categoryDetail);
+            dispatcher = req.getRequestDispatcher("views/categoryDetail/categoryDetailInfoForm.jsp");
+        }
+        dispatcher.forward(req, resp);
     }
 
     private void listCategoryDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/list.jsp");
         List<CategoryDetail> categoryDetailList = categoryDetailService.findAll();
-        List<Category> categoryList = findAllCategory(categoryDetailList);
         req.setAttribute("categoriesDetail", categoryDetailList);
-        req.setAttribute("categories", categoryList);
-        requestDispatcher.forward(req, resp);
+            requestDispatcher.forward(req, resp);
     }
 
     private void createCategoryDetailForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/addCategoryDetail.jsp");
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher("views/categoryDetail/categoryDetailInfoForm.jsp");
         requestDispatcher.forward(req, resp);
     }
 
@@ -126,29 +122,20 @@ public class CategoryDetailServlet extends HttpServlet {
                     throw new RuntimeException(e);
                 }
                 break;
-            case "find":
-                findByCategoryName(req, resp);
-                break;
+
             default:
-//                listCategory(req, resp);
                 break;
         }
     }
 
 
-    private void findByCategoryName(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("categoryID"));
-        List<CategoryDetail> categoryDetailList = categoryDetailService.findAllByCategoryID(id);
-        req.setAttribute("categoriesDetail", categoryDetailList);
-        listCategoryDetail(req, resp);
-    }
-
     private void editCategoryDetail(HttpServletRequest req, HttpServletResponse resp) throws SQLException, ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
-        int categoryId = Integer.parseInt(req.getParameter("categoryId"));
+        Category category = new Category();
+        category.setId(Integer.parseInt(req.getParameter("categoryId")));
         int role = Integer.parseInt(req.getParameter("role"));
-        CategoryDetail categoryDetail = new CategoryDetail(id, name, 1, categoryId, role);
+        CategoryDetail categoryDetail = new CategoryDetail(id, name, 1, category, role);
         categoryDetailService.update(categoryDetail);
         listCategoryDetail(req, resp);
     }
@@ -156,8 +143,9 @@ public class CategoryDetailServlet extends HttpServlet {
     private void createCategoryDetail(HttpServletRequest req) throws SQLException {
         String name = req.getParameter("name");
         int role = Integer.parseInt(req.getParameter("role"));
-        int categoryId = Integer.parseInt(req.getParameter("categoryId"));
-        CategoryDetail categoryDetail = new CategoryDetail(name, 1, categoryId, role);
+        Category category = new Category();
+        category.setId(Integer.parseInt(req.getParameter("categoryId")));
+        CategoryDetail categoryDetail = new CategoryDetail(name, 1, category, role);
         categoryDetailService.add(categoryDetail);
     }
 }

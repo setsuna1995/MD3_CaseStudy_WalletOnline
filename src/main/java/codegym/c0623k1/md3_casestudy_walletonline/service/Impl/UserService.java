@@ -27,13 +27,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public void delete(int id) throws SQLException {
-        userDAO.remove(id);
+    public boolean delete(int id) throws SQLException {
+        return userDAO.delete(id);
     }
 
     @Override
-    public void update(User user) throws SQLException {
-        userDAO.update(user);
+    public boolean update(User user) throws SQLException {
+        return userDAO.update(user);
     }
 
     @Override

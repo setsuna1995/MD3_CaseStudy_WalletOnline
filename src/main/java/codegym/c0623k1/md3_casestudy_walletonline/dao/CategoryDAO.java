@@ -1,15 +1,16 @@
 package codegym.c0623k1.md3_casestudy_walletonline.dao;
 
+import codegym.c0623k1.md3_casestudy_walletonline.converter.DaoToModel;
 import codegym.c0623k1.md3_casestudy_walletonline.model.Category;
-import codegym.c0623k1.md3_casestudy_walletonline.model.CategoryDetail;
 import codegym.c0623k1.md3_casestudy_walletonline.util.ConnectionUtil;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryDAO extends ConnectionUtil implements GeneralDAO <Category> {
+public class CategoryDAO extends ConnectionUtil implements GeneralDAO<Category> {
 
+    DaoToModel converter = DaoToModel.getInstance();
 
     @Override
     public Category findById(int id) {
@@ -19,10 +20,9 @@ public class CategoryDAO extends ConnectionUtil implements GeneralDAO <Category>
             open();
             mPreparedStatement = mConnection.prepareStatement(sql);
             mPreparedStatement.setInt(1, id);
-            ResultSet rs = mPreparedStatement.executeQuery();
-            while (rs.next()) {
-                String name = rs.getString("name");
-                category = new Category(id, name);
+            mResultSet = mPreparedStatement.executeQuery();
+            while (mResultSet.next()) {
+                category = converter.categoryDaoToModel(mResultSet);
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -39,10 +39,8 @@ public class CategoryDAO extends ConnectionUtil implements GeneralDAO <Category>
             mPreparedStatement = mConnection.prepareStatement(sql);
             mResultSet = mPreparedStatement.executeQuery();
             while (mResultSet.next()) {
-                int id = mResultSet.getInt("id");
-                String name = mResultSet.getString("name");
-                int status = mResultSet.getInt("status");
-                categoryList.add(new Category(id, name, status));
+                Category category = converter.categoryDaoToModel(mResultSet);
+                categoryList.add(category);
             }
             close();
         } catch (Exception e) {
@@ -65,11 +63,6 @@ public class CategoryDAO extends ConnectionUtil implements GeneralDAO <Category>
             throw new RuntimeException(e);
         }
         return rowUpdated;
-    }
-
-    @Override
-    public boolean remove(int id) {
-        return false;
     }
 
     @Override

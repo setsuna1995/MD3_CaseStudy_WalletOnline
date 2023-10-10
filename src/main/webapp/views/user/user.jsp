@@ -18,23 +18,23 @@
 </p>
 <table>
     <tr>
-        <td>Name: </td>
+        <td>Name:</td>
         <td>${user.name}</td>
     </tr>
     <tr>
-        <td>UserName: </td>
+        <td>UserName:</td>
         <td>${user.userName}</td>
     </tr>
     <tr>
-        <td>Address: </td>
+        <td>Address:</td>
         <td>${user.address}</td>
     </tr>
     <tr>
-        <td>Total Money: </td>
+        <td>Total Money:</td>
         <td>${user.totalMoney}</td>
     </tr>
     <tr>
-        <td>Status: </td>
+        <td>Status:</td>
         <c:if test="${user.status == 1}">
             <td>Còn hàng</td>
         </c:if>

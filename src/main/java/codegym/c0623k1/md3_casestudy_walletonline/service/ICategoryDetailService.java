@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface ICategoryDetailService extends IGeneralService<CategoryDetail> {
     List<CategoryDetail> findAllByCategoryID(int id);
+
+    List<CategoryDetail> findAllByRole(int role);
 }

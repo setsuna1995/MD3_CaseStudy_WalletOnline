@@ -89,7 +89,6 @@ public class CategoryServlet extends HttpServlet {
                 }
                 break;
             default:
-//                listCategory(req, resp);
                 break;
         }
     }

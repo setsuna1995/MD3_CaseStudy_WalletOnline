@@ -17,19 +17,19 @@
 <a href="category-detail-servlet?action=find">find</a>
 <table>
     <%--@elvariable id="categoriesDetail" type="com.sun.java.accessibility.util.Translator"--%>
-        <%--@elvariable id="categories" type="java.util.List"--%>
-        <c:forEach var="categories" items="${categories}">
-            <tr>
-                <td>
-                        ${categories.name}
+    <%--@elvariable id="categories" type="java.util.List"--%>
+    <c:forEach var="categories" items="${categories}">
+        <tr>
+            <td>
+                    ${categories.name}
                     ${categories.id}
-                </td>
-                <td>
-                    <a href="category-detail-servlet?action=showListByCategory&categoryID=${categories.id}">FIND</a>
-                </td>
-            </tr>
+            </td>
+            <td>
+                <a href="category-detail-servlet?action=showListByCategory&categoryID=${categories.id}">FIND</a>
+            </td>
+        </tr>
 
-        </c:forEach>
+    </c:forEach>
 </table>
 </body>
 </html>

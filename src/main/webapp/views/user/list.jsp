@@ -23,23 +23,23 @@
         <th>Delete</th>
     </tr>
     <c:forEach items='${users}' var="user">
-    <tr>
-        <td>${user.name}</td>
-        <td>${user.userName}</td>
-        <td>${user.address}</td>
-        <c:if test="${user.status == 1}">
-            <td>Còn hàng</td>
-        </c:if>
-        <c:if test="${user.status == 0}">
-            <td>Hết hàng</td>
-        </c:if>
-        <c:if test="${user.status == 2}">
-            <td>Admin</td>
-        </c:if>
-        <td><a href="user-servlet?action=view&id=${user.userId}">View</a></td>
-        <td><a href="user-servlet?action=edit&id=${user.userId}">Edit</a></td>
-        <td><a href="user-servlet?action=delete&id=${user.userId}">Delete</a></td>
-    </tr>
+        <tr>
+            <td>${user.name}</td>
+            <td>${user.userName}</td>
+            <td>${user.address}</td>
+            <c:if test="${user.status == 1}">
+                <td>Còn hàng</td>
+            </c:if>
+            <c:if test="${user.status == 0}">
+                <td>Hết hàng</td>
+            </c:if>
+            <c:if test="${user.status == 2}">
+                <td>Admin</td>
+            </c:if>
+            <td><a href="user-servlet?action=view&id=${user.id}">View</a></td>
+            <td><a href="user-servlet?action=edit&id=${user.id}">Edit</a></td>
+            <td><a href="user-servlet?action=delete&id=${user.id}">Delete</a></td>
+        </tr>
     </c:forEach>
 </table>
 </body>

@@ -12,28 +12,28 @@
     <title>Login Form</title>
 </head>
 <body>
-    <h1>Login User</h1>
+<h1>Login User</h1>
 
-    <form method="post">
-        <fieldset>
-            <legend>Login Form</legend>
-            <table>
-                <tr>
-                    <td>Username:</td>
-                    <td><input type="text" name="userName" id="userName"></td>
-                </tr>
-                <tr>
-                    <td>Password:</td>
-                    <td><input type="text" name="password" id="password"></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="submit" value="Submit">
-                    </td>
-                </tr>
-            </table>
-        </fieldset>
-    </form>
+<form method="post">
+    <fieldset>
+        <legend>Login Form</legend>
+        <table>
+            <tr>
+                <td>Username:</td>
+                <td><input type="text" name="userName" id="userName"></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="text" name="password" id="password"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit" value="Submit">
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
 </body>
 </html>

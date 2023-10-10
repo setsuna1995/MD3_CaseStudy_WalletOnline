@@ -1,54 +1,34 @@
 package codegym.c0623k1.md3_casestudy_walletonline.model;
 
-public class User {
-    private int userId;
-    private String name;
+public class User extends AbstractModel {
     private String userName;
     private String password;
     private String address;
     private float totalMoney;
-    private int status;
 
     public User() {
     }
 
-    public User(int userId, String name, String userName, String password, String address, float totalMoney) {
-        this.userId = userId;
-        this.name = name;
+    public User(int id, String name, String userName, String password, String address, float totalMoney) {
+        super(id, name);
         this.userName = userName;
         this.password = password;
         this.address = address;
         this.totalMoney = totalMoney;
     }
+
     public User(String name, String userName, String password, String address) {
-        this.name = name;
+        super(name);
         this.userName = userName;
         this.password = password;
         this.address = address;
     }
 
-    public User(int userId, String name, String userName, String password, String address) {
-        this.userId = userId;
-        this.name = name;
+    public User(int id, String name, String userName, String password, String address) {
+        super(id, name);
         this.userName = userName;
         this.password = password;
         this.address = address;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int idUser) {
-        this.userId = idUser;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getUserName() {
@@ -81,13 +61,5 @@ public class User {
 
     public void setTotalMoney(float totalMoney) {
         this.totalMoney = totalMoney;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 }

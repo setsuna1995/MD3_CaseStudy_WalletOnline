@@ -1,31 +1,25 @@
 package codegym.c0623k1.md3_casestudy_walletonline.model;
 
-public class CategoryDetail {
-    private int id;
-    private String name;
-    private int status;
-    private int categoryID;
+public class CategoryDetail extends AbstractModel {
+    private Category category;
     private int role;
 
     public CategoryDetail() {
     }
 
     public CategoryDetail(int id) {
-        this.id = id;
+        super(id);
     }
 
-    public CategoryDetail(int id, String name, int status, int categoryID, int role) {
-        this.id = id;
-        this.name = name;
-        this.status = status;
-        this.categoryID = categoryID;
+    public CategoryDetail(int id, String name, int status, Category category, int role) {
+        super(id, name, status);
+        this.category = category;
         this.role = role;
     }
 
-    public CategoryDetail(String name, int status, int categoryID, int role) {
-        this.name = name;
-        this.status = status;
-        this.categoryID = categoryID;
+    public CategoryDetail(String name, int status, Category category, int role) {
+        super(name, status);
+        this.category = category;
         this.role = role;
     }
 
@@ -37,35 +31,11 @@ public class CategoryDetail {
         this.role = role;
     }
 
-    public int getId() {
-        return id;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getCategoryID() {
-        return categoryID;
-    }
-
-    public void setCategoryID(int categoryID) {
-        this.categoryID = categoryID;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

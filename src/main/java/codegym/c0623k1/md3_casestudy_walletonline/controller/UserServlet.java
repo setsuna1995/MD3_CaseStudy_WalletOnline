@@ -11,12 +11,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-@WebServlet (name = "userServlet", urlPatterns = {"/user-servlet"})
+@WebServlet(name = "userServlet", urlPatterns = {"/user-servlet"})
 public class UserServlet extends HttpServlet {
 
     private final IUserService userService = new UserService();
@@ -29,13 +28,13 @@ public class UserServlet extends HttpServlet {
         }
         switch (action) {
             case "login":
-                loginUserForm(req,resp);
+                loginUserForm(req, resp);
                 break;
             case "register":
                 registerUserForm(req, resp);
                 break;
             case "edit":
-                editUserForm(req,resp);
+                editUserForm(req, resp);
                 break;
             case "delete":
                 try {
@@ -48,10 +47,10 @@ public class UserServlet extends HttpServlet {
                 viewUser(req, resp);
                 break;
             case "logout":
-                logoutUser(req,resp);
+                logoutUser(req, resp);
                 break;
             default:
-                listUser(req,resp);
+                listUser(req, resp);
                 break;
         }
     }
@@ -97,10 +96,10 @@ public class UserServlet extends HttpServlet {
         RequestDispatcher dispatcher;
         if (user == null) {
             dispatcher = req.getRequestDispatcher("error-404.jsp");
-            dispatcher.forward(req,resp);
+            dispatcher.forward(req, resp);
         } else {
             this.userService.delete(id);
-            listUser(req,resp);
+            listUser(req, resp);
         }
     }
 
@@ -125,14 +124,14 @@ public class UserServlet extends HttpServlet {
         String address = req.getParameter("address");
         User user = new User(id, name, userName, password, address);
         this.userService.update(user);
-        listUser(req,resp);
+        listUser(req, resp);
     }
 
     private void editUserForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         User user = this.userService.findById(id);
         RequestDispatcher dispatcher;
-        if(user == null) {
+        if (user == null) {
             dispatcher = req.getRequestDispatcher("error-404.jsp");
         } else {
             req.setAttribute("user", user);
@@ -159,7 +158,7 @@ public class UserServlet extends HttpServlet {
         String userName = req.getParameter("userName");
         String password = req.getParameter("password");
         String address = req.getParameter("address");
-        User user = new User(name, userName, password,address);
+        User user = new User(name, userName, password, address);
         this.userService.add(user);
 
         //Bổ sung trang điều hướng
@@ -174,10 +173,10 @@ public class UserServlet extends HttpServlet {
     private void loginUser(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String userName = req.getParameter("userName");
         String password = req.getParameter("password");
-        if(this.userService.checkLogin(userName, password)){
-            SessionUtil.getInstance().putValue(req,"userName", userName);
+        if (this.userService.checkLogin(userName, password)) {
+            SessionUtil.getInstance().putValue(req, "userName", userName);
 //            Thay đổi đường dẫn đến trang phù hợp
-            RequestDispatcher dispatcher = req.getRequestDispatcher("views/user/home-user.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("views/money/home.jsp");
             dispatcher.forward(req, resp);
         } else {
             resp.sendRedirect("/user-servlet?action=login");

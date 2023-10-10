@@ -16,22 +16,19 @@
 <a href="category-detail-servlet?action=create">creat</a>
 <a href="category-detail-servlet?action=find">find</a>
 <table>
-    <%--@elvariable id="categoriesDetail" type="com.sun.java.accessibility.util.Translator"--%>
-    <c:forEach var="i" begin="0" end="${categoriesDetail.size()-1}">
-
+    <c:forEach var="categoryDetail" items="${categoriesDetail}">
         <tr>
             <td>
                 <h2>
-                        ${categoriesDetail.get(i).name}
-                        ${categoriesDetail.get(i).categoryID}
-                        ${categories.get(i).name}
+                        ${categoryDetail.name}
+                        ${categoryDetail.category.name}
                 </h2>
             </td>
             <td>
-                <a href="category-detail-servlet?action=edit&id=${categoriesDetail.get(i).id}">edit</a>
+                <a href="category-detail-servlet?action=edit&id=${categoryDetail.id}">edit</a>
             </td>
             <td>
-                <a href="category-detail-servlet?action=delete&idDelete=${categoriesDetail.get(i).id}">delete</a>
+                <a href="category-detail-servlet?action=delete&idDelete=${categoryDetail.id}">delete</a>
             </td>
         </tr>
     </c:forEach>

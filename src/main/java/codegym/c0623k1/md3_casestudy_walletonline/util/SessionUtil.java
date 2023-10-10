@@ -5,13 +5,16 @@ import javax.servlet.http.HttpServletRequest;
 public class SessionUtil {
     static SessionUtil sessionUtil;
 
-    public SessionUtil() {}
+    public SessionUtil() {
+    }
+
     public static SessionUtil getInstance() {
-        if(sessionUtil == null) {
+        if (sessionUtil == null) {
             sessionUtil = new SessionUtil();
         }
         return sessionUtil;
     }
+
     public void putValue(HttpServletRequest request, String key, Object value) {
         request.getSession().setAttribute(key, value);
     }

@@ -1,17 +1,19 @@
 package codegym.c0623k1.md3_casestudy_walletonline.dao;
 
+import codegym.c0623k1.md3_casestudy_walletonline.converter.DaoToModel;
 import codegym.c0623k1.md3_casestudy_walletonline.model.User;
 import codegym.c0623k1.md3_casestudy_walletonline.util.ConnectionUtil;
 
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO extends ConnectionUtil implements GeneralDAO<User> {
 
+    DaoToModel converter = DaoToModel.getInstance();
+
     public void insert(User user) {
-        String sql = "INSERT INTO user (`name`, `userName`, `password`, `address`, `totalMoney`) VALUES (?, ?, ?, ?, 0)";
+        String sql = "INSERT INTO user (`name`, `userName`, `password`, `address`, `totalMoney`, `status`) VALUES (?, ?, ?, ?, 0, 1)";
 
         try {
             open();
@@ -39,7 +41,7 @@ public class UserDAO extends ConnectionUtil implements GeneralDAO<User> {
             mPreparedStatement.setString(2, user.getUserName());
             mPreparedStatement.setString(3, user.getPassword());
             mPreparedStatement.setString(4, user.getAddress());
-            mPreparedStatement.setInt(5, user.getUserId());
+            mPreparedStatement.setInt(5, user.getId());
             check = mPreparedStatement.executeUpdate() > 0;
             close();
         } catch (Exception e) {
@@ -49,7 +51,7 @@ public class UserDAO extends ConnectionUtil implements GeneralDAO<User> {
     }
 
     @Override
-    public boolean remove(int id) {
+    public boolean delete(int id) {
         String sql = "UPDATE user SET status = 0 WHERE id = ?";
         boolean check = false;
         try {
@@ -75,13 +77,7 @@ public class UserDAO extends ConnectionUtil implements GeneralDAO<User> {
             mResultSet = mPreparedStatement.executeQuery();
 
             while (mResultSet.next()) {
-                user.setUserId(mResultSet.getInt("id"));
-                user.setName(mResultSet.getString("name"));
-                user.setUserName(mResultSet.getString("userName"));
-                user.setPassword(mResultSet.getString("password"));
-                user.setAddress(mResultSet.getString("address"));
-                user.setTotalMoney(mResultSet.getFloat("totalMoney"));
-                user.setStatus(mResultSet.getInt("status"));
+                user = converter.userDaoToModel(mResultSet);
             }
             close();
         } catch (Exception e) {
@@ -100,15 +96,7 @@ public class UserDAO extends ConnectionUtil implements GeneralDAO<User> {
             mResultSet = mPreparedStatement.executeQuery();
 
             while (mResultSet.next()) {
-                User user = new User();
-                user.setUserId(mResultSet.getInt("id"));
-                user.setName(mResultSet.getString("name"));
-                user.setUserName(mResultSet.getString("userName"));
-                user.setPassword(mResultSet.getString("password"));
-                user.setAddress(mResultSet.getString("address"));
-                user.setTotalMoney(mResultSet.getFloat("totalMoney"));
-                user.setStatus(mResultSet.getInt("status"));
-                users.add(user);
+                users.add(converter.userDaoToModel(mResultSet));
             }
             close();
         } catch (Exception e) {
@@ -133,5 +121,24 @@ public class UserDAO extends ConnectionUtil implements GeneralDAO<User> {
             close();
         }
         return blCheck;
+    }
+
+    public User findByUserName(String userName) {
+        User user = new User();
+        String sql = "SELECT * FROM user WHERE userName = ?";
+        try {
+            open();
+            mPreparedStatement = mConnection.prepareStatement(sql);
+            mPreparedStatement.setString(1, userName);
+            mResultSet = mPreparedStatement.executeQuery();
+
+            while (mResultSet.next()) {
+                user = converter.userDaoToModel(mResultSet);
+            }
+            close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return user;
     }
 }

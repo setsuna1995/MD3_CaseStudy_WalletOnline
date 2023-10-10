@@ -16,6 +16,11 @@ public class CategoryDetailService implements ICategoryDetailService {
     }
 
     @Override
+    public List<CategoryDetail> findAllByRole(int role) {
+        return categoryDetailDAO.findAllByRole(role);
+    }
+
+    @Override
     public void add(CategoryDetail categoryDetail) throws SQLException {
         categoryDetailDAO.insert(categoryDetail);
     }
